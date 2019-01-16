@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PearsonUsers } from "../Components/PearsonUsers/PearsonUsers";
-import PearsonUser from "../Components/PearsonUser/PearsonUser";
+import { PearsonUsers } from "../components/PearsonUsers/PearsonUsers";
+import PearsonUser from "../components/PearsonUser/PearsonUser";
 
 describe("PearsonUsers", () => {
   let component;
@@ -36,9 +36,13 @@ const dummyData = [
     avatar:
       "https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg"
   }
-]
+];
   beforeEach(() => {
     component = shallow(<PearsonUsers />);
+    component.setState({
+      isLoading: true,
+      error: null
+    });
   });
 
 

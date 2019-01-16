@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import  PearsonUser  from "../Components/PearsonUser/PearsonUser";
+import  PearsonUser  from "../components/PearsonUser/PearsonUser";
 
 describe('PearsonUser', () => {
 

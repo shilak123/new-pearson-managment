@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /**
  * Render various fields of user in UI
@@ -18,9 +17,5 @@ const PearsonUser = (props) => {
 
 }
 
-PearsonUser.propTypes = {
-     avatar: PropTypes.string,
-     first_name: PropTypes.string,
-     last_name: PropTypes.string
-};
+
 export default PearsonUser;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import  PearsonUser  from "../PearsonUser/PearsonUser";
 import  "../../assets/css/Pearson.css";
 import {URL} from "../../constants/URL";
+import axios from 'axios';
 
 export class PearsonUsers extends Component {
 
@@ -45,30 +46,20 @@ export class PearsonUsers extends Component {
  * To Get the users in state and add on response
  * Excute remove duplicate users from state
  */
-  fetchUsers() {
-   
-    fetch(URL,{
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+fetchUsers() {
+  axios.get(URL)
+    .then(response =>
+      {     
+       let users = [...this.state.users, ...response.data.data];
+       users = this.removeDuplicates(users,'id');
+       this.setState({
+        users: users,
+        isLoading: false,
+      });
+    }
+    )
+    .catch(error => this.setState({ error, isLoading: false }));
 }
-  })
-      .then(response => response.json())
-      .then(results =>
-        {
-         let users = [...this.state.users, ...results.data];
-         users = this.removeDuplicates(users,'id');
-         this.setState({
-          users: users,
-          isLoading: false,
-        });
-      }
-
-      )
-
-      .catch(error => this.setState({ error, isLoading: false }));
-  }
 
  /**
  *  Making API call to get users
