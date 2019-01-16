@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import  PearsonUser  from "./PearsonUser";
-import  "./Pearson.css";
+import  PearsonUser  from "../PearsonUser/PearsonUser";
+import  "../../assets/css/Pearson.css";
+import {URL} from "../../constants/URL";
 
 export class PearsonUsers extends Component {
+
+  /**
+   * Initialize state
+   * 
+   */
   constructor(props) {
     super(props);
-    //this.removeDuplicates = this.removeDuplicates.bind(this);
 
     this.state = {
         isLoading:true,
@@ -36,9 +41,19 @@ export class PearsonUsers extends Component {
 
     };
   }
+/**
+ * To Get the users in state and add on response
+ * Excute remove duplicate users from state
+ */
   fetchUsers() {
    
-    fetch('https://reqres.in/api/users?page=1&per_page=10')
+    fetch(URL,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+}
+  })
       .then(response => response.json())
       .then(results =>
         {
@@ -54,12 +69,32 @@ export class PearsonUsers extends Component {
 
       .catch(error => this.setState({ error, isLoading: false }));
   }
+
+ /**
+ *  Making API call to get users
+ * 
+ */
   componentDidMount() {
     this.fetchUsers();
   }
 
+ /**
+ *  Confirm alert box to Delete the user by id
+ *  it it returns true excute deleteUser
+ * 
+ */
+  deleteUserfn = (id) =>{
+     if (window.confirm('Are you sure you wish to delete this item?'))
+     this.deleteUser(id);
+  }
+
+/**
+ *  Delete user by passing id
+ *  return updated state
+ * 
+ */
   deleteUser = (id) =>{
-     if (window.confirm('Are you sure you wish to delete this item?')){ 
+
     let users = this.state.users.filter((user) => {
         return id !== user.id;
     });
@@ -68,22 +103,28 @@ export class PearsonUsers extends Component {
         state.users = users;
         return state;
     });
-  }
 }
+/**
+ *  Remove duplicate users from  state
+ *  by matching id
+ */
   removeDuplicates = (users,id) => {
     return users.filter((obj, pos, arr) => {
       return arr.map(mapObj => mapObj[id]).indexOf(obj[id]) === pos;
 });
   }
 
-
+/**
+ *  Render the element and pass props to child component.
+ * 
+ */
   render() {
     const { isLoading, users, error } = this.state;
       const userList = users.map(user => {
         return <PearsonUser
         user={user}
         key={user.id}
-        deleteUser={this.deleteUser.bind(this,user.id)}/>
+        deleteUser={() => this.deleteUserfn(user.id)}/>
       })
     return (
       <div className="pearon-users">

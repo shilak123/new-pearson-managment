@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import  PearsonUser  from "../Components/PearsonUser";
+import  PearsonUser  from "../Components/PearsonUser/PearsonUser";
 
 describe('PearsonUser', () => {
 
@@ -25,24 +25,23 @@ describe('PearsonUser', () => {
   });
 
   it("Display first Name and last Name", () => { 
-    const display_name = PearsonComponent.find("p.title");
+    const display_name = PearsonComponent.find("div.title");
     expect(display_name.text()).toEqual('Eve Holt');
 
   });
 
   it("Show delete button", () => {
-    expect(PearsonComponent.find("span.delete").text()).toEqual("Delete");
+    expect(PearsonComponent.find(".delete").text()).toEqual("Delete");
   });
   
-  it("Trigger deleteUser action", () => {
+  it("Trigger deleteUser function", () => {
     const mockFn = jest.fn();
     
     PearsonComponent.setProps({ deleteUser: mockFn });
     PearsonComponent
-      .find("span.delete")
+      .find("div.delete")
       .simulate("click");   
-    expect(mockFn).toHaveBeenCalledTimes(1);
-    
+    expect(mockFn).toHaveBeenCalledTimes(1);    
   });
 
 });
